@@ -1,50 +1,70 @@
-// <⚠️ DONT DELETE THIS ⚠️>
-// import "./styles.css";
-// <⚠️ /DONT DELETE THIS ⚠️>
+const input = document.getElementsByClassName("input")[0],
+  tmp = document.getElementsByClassName("tmp")[0];
 
-const plusBtn = document.querySelector("#js-plusBtn"),
-  minusBtn = document.querySelector("#js-minusBtn"),
-  multiBtn = document.querySelector("#js-multiBtn"),
-  divBtn = document.querySelector("#js-divBtn"),
-  text = document.querySelector("#js-number"),
-  button = document.querySelectorAll(".normal-btn"),
-  reset = document.querySelector("#js-resetBtn"),
-  result = document.querySelector("#js-resultBtn");
-
-let realone = 0;
-let realtwo = 0;
-let ans = 0;
-
-function handlereset() {
-  realone = 0;
-  realtwo = 0;
-  ans = 0;
-  text.innerText = 0;
+function i_empty() {
+  input.innerText = "";
 }
 
-reset.addEventListener("click", handlereset);
-
-function handleresult() {
-  text.innerText = ans;
+function t_empty() {
+  tmp.innerText = "";
 }
 
-result.addEventListener("click", handleresult);
+document
+  .getElementsByClassName("all-clear")[0]
+  .addEventListener("click", function() {
+    i_empty(), t_empty();
+  }),
+  document
+    .getElementsByClassName("clear")[0]
+    .addEventListener("click", function() {
+      i_empty();
+    }),
+  Array.from(document.querySelectorAll(".number")).forEach(a => {
+    a.addEventListener("click", function() {
+      if (input.innerText.length <= 19) {
+        input.innerText = input.innerText + this.innerText;
+      } else {
+        alert("최대 입력 범위를 초과했습니다!");
+      }
+    });
+  }),
+  document
+    .getElementsByClassName("dot")[0]
+    .addEventListener("click", function() {
+      if (input.innerText.indexOf(".") === -1) {
+        input.innerText = input.innerText + ".";
+      }
+    }),
+  document
+    .getElementsByClassName("sign")[0]
+    .addEventListener("click", function() {
+      if (input.innerText.indexOf("-") === -1 && input.innerText !== "") {
+        input.innerText = "-" + input.innerText;
+      } else {
+        input.innerText = input.innerText.replace("-", "");
+      }
+    }),
+  Array.from(document.querySelectorAll(".amt")).forEach(a => {
+    a.addEventListener("click", function() {
+      if (input.innerText !== "") {
+        if (tmp.innerText === "") {
+          tmp.innerText = input.innerText + " " + this.innerText;
+        } else {
+          tmp.innerText =
+            tmp.innerText + " " + input.innerText + " " + this.innerText;
+        }
+      }
+      if (input.innerText === "" && tmp.innerText !== "") {
+        tmp.innerText = tmp.innerText.slice(0, -1) + " " + this.innerText;
+      }
 
-function plus() {
-  ans += realone;
-  Array.from(button).forEach(function(e) {
-    e.addEventListener("click", getNum);
-  });
-}
-
-plusBtn.addEventListener("click", plus);
-
-function getNum(e) {
-  const one = parseInt(e.target.value);
-  realone = one;
-  text.innerText = realone;
-}
-
-Array.from(button).forEach(function(e) {
-  e.addEventListener("click", getNum);
-});
+      i_empty();
+    });
+  }),
+  document
+    .getElementsByClassName("result")[0]
+    .addEventListener("click", function() {
+      if (input.innerText !== "") {
+        (input.innerText = eval(tmp.innerText + input.innerText)), t_empty();
+      }
+    });
