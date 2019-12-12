@@ -1,6 +1,8 @@
 const input = document.getElementsByClassName("input")[0],
   tmp = document.getElementsByClassName("tmp")[0];
 
+// class 이름만 input tmp이고 모두 div임
+
 function i_empty() {
   input.innerText = "";
 }
