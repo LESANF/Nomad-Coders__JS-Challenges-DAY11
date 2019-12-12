@@ -25,26 +25,17 @@ function handlereset() {
 reset.addEventListener("click", handlereset);
 
 function handleresult() {
-  ans = ans + realtwo;
+  ans += realone;
   text.innerText = ans;
 }
 
 result.addEventListener("click", handleresult);
 
-function getNum2(e) {
-  const two = parseInt(e.target.value);
-  realtwo = two;
-}
-
-function plusInto() {
-  Array.from(button).forEach(function(e) {
-    e.addEventListener("click", getNum2);
-  });
-}
-
 function plus() {
-  ans = realone;
-  plusInto();
+  ans += realone;
+  Array.from(button).forEach(function(e) {
+    e.addEventListener("click", getNum);
+  });
 }
 
 plusBtn.addEventListener("click", plus);
@@ -52,12 +43,9 @@ plusBtn.addEventListener("click", plus);
 function getNum(e) {
   const one = parseInt(e.target.value);
   realone = one;
+  text.innerText = realone;
 }
 
-function init() {
-  Array.from(button).forEach(function(e) {
-    e.addEventListener("click", getNum);
-  });
-}
-
-init();
+Array.from(button).forEach(function(e) {
+  e.addEventListener("click", getNum);
+});
