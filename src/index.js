@@ -25,7 +25,6 @@ function handlereset() {
 reset.addEventListener("click", handlereset);
 
 function handleresult() {
-  ans += realone;
   text.innerText = ans;
 }
 
