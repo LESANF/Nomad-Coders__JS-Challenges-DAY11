@@ -1,72 +1,85 @@
-const input = document.getElementsByClassName("input")[0],
-  tmp = document.getElementsByClassName("tmp")[0];
+import "./styles.css";
 
-// class 이름만 input tmp이고 모두 div임
+const result = document.querySelector(".js-result");
+const reset = document.querySelector(".js-reset");
+const equals = document.querySelector(".js-equals");
+const numbers = Array.from(document.querySelectorAll(".js-number"));
+const operations = Array.from(document.querySelectorAll(".js-operation"));
 
-function i_empty() {
-  input.innerText = "";
+let firstValue = "",
+  firstDone,
+  secondValue = "",
+  secondDone,
+  currentOperation;
+
+function doOperation() {
+  const intValueA = parseInt(firstValue, 10);
+  const intValueB = parseInt(secondValue, 10);
+  switch (currentOperation) {
+    case "+":
+      return intValueA + intValueB;
+    case "-":
+      return intValueA - intValueB;
+    case "/":
+      return intValueA / intValueB;
+    case "*":
+      return intValueA * intValueB;
+    default:
+      return;
+  }
 }
 
-function t_empty() {
-  tmp.innerText = "";
+function handleNumberClick(e) {
+  const clickedNum = e.target.innerText;
+  if (!firstDone) {
+    firstValue = firstValue + clickedNum;
+    result.innerHTML = firstValue;
+  } else {
+    secondValue = secondValue + clickedNum;
+    result.innerHTML = secondValue;
+    secondDone = true;
+  }
 }
 
-document
-  .getElementsByClassName("all-clear")[0]
-  .addEventListener("click", function() {
-    i_empty(), t_empty();
-  }),
-  document
-    .getElementsByClassName("clear")[0]
-    .addEventListener("click", function() {
-      i_empty();
-    }),
-  Array.from(document.querySelectorAll(".number")).forEach(a => {
-    a.addEventListener("click", function() {
-      if (input.innerText.length <= 19) {
-        input.innerText = input.innerText + this.innerText;
-      } else {
-        alert("최대 입력 범위를 초과했습니다!");
-      }
-    });
-  }),
-  document
-    .getElementsByClassName("dot")[0]
-    .addEventListener("click", function() {
-      if (input.innerText.indexOf(".") === -1) {
-        input.innerText = input.innerText + ".";
-      }
-    }),
-  document
-    .getElementsByClassName("sign")[0]
-    .addEventListener("click", function() {
-      if (input.innerText.indexOf("-") === -1 && input.innerText !== "") {
-        input.innerText = "-" + input.innerText;
-      } else {
-        input.innerText = input.innerText.replace("-", "");
-      }
-    }),
-  Array.from(document.querySelectorAll(".amt")).forEach(a => {
-    a.addEventListener("click", function() {
-      if (input.innerText !== "") {
-        if (tmp.innerText === "") {
-          tmp.innerText = input.innerText + " " + this.innerText;
-        } else {
-          tmp.innerText =
-            tmp.innerText + " " + input.innerText + " " + this.innerText;
-        }
-      }
-      if (input.innerText === "" && tmp.innerText !== "") {
-        tmp.innerText = tmp.innerText.slice(0, -1) + " " + this.innerText;
-      }
+function calculate() {
+  const operation = doOperation();
+  result.innerHTML = operation;
+  firstValue = operation;
+  secondDone = false;
+  secondValue = "";
+}
 
-      i_empty();
-    });
-  }),
-  document
-    .getElementsByClassName("result")[0]
-    .addEventListener("click", function() {
-      if (input.innerText !== "") {
-        (input.innerText = eval(tmp.innerText + input.innerText)), t_empty();
-      }
-    });
+function handleOperationClick(e) {
+  const clickedOperation = e.target.innerText;
+  if (!firstDone) {
+    firstDone = true;
+  }
+  if (firstDone && secondDone) {
+    calculate();
+  }
+  currentOperation = clickedOperation;
+}
+
+function handleReset() {
+  firstValue = "";
+  secondValue = "";
+  firstDone = false;
+  secondDone = false;
+  currentOperation = null;
+  result.innerHTML = "0";
+}
+
+function handleEqualsClick() {
+  if (firstDone && secondDone) {
+    calculate();
+  }
+}
+
+numbers.forEach(function(number) {
+  number.addEventListener("click", handleNumberClick);
+});
+operations.forEach(function(operation) {
+  operation.addEventListener("click", handleOperationClick);
+});
+reset.addEventListener("click", handleReset);
+equals.addEventListener("click", handleEqualsClick);
