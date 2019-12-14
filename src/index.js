@@ -1,4 +1,4 @@
-import "./styles.css";
+// import "./styles.css";
 
 const result = document.querySelector(".js-result");
 const reset = document.querySelector(".js-reset");
