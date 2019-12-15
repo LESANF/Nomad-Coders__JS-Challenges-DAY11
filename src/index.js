@@ -4,6 +4,7 @@ const result = document.querySelector(".js-result"); // 보여지는창
 const reset = document.querySelector(".js-reset"); // C
 const equals = document.querySelector(".js-equals"); // =
 const numbers = Array.from(document.querySelectorAll(".js-number")); // NUM
+const number = document.querySelectorAll(".js-number");
 const operations = Array.from(document.querySelectorAll(".js-operation")); //+,-,*,/
 
 let firstValue = "",
